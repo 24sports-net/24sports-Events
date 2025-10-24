@@ -2,20 +2,17 @@ name: Split Matches JSON
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs every hour
-  workflow_dispatch:  # Optional manual trigger
+    - cron: '0 * * * *'  # Run every hour
+  workflow_dispatch:  # Manual trigger
 
 jobs:
   split-json:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout repository with push access
+      # Step 1: Checkout repo
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          persist-credentials: true
 
       # Step 2: Setup Node.js
       - name: Setup Node.js
@@ -58,15 +55,17 @@ jobs:
           });
           EOF
 
-      # Step 5: Commit & push only if changes
+      # Step 5: Commit & push using PAT
       - name: Commit & Push
-  run: |
-    git config user.name "github-actions"
-    git config user.email "github-actions@github.com"
-    git add 24spn-*.json
-    if ! git diff --cached --quiet; then
-      git commit -m "Auto-update split JSONs [skip ci]"
-      git push https://${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }} HEAD:main
-    else
-      echo "No changes to commit."
-    fi
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add 24spn-*.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Auto-update split JSONs [skip ci]"
+            git push https://${PAT_TOKEN}@github.com/${{ github.repository }} HEAD:main
+          else
+            echo "No changes to commit."
+          fi
