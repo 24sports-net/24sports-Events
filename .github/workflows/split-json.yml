@@ -1,0 +1,60 @@
+name: Split Matches JSON
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Runs every hour
+  workflow_dispatch:  # Optional manual trigger
+
+jobs:
+  split-json:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install fs-extra
+
+      - name: Split JSON files
+        run: |
+          node <<'EOF'
+          const fs = require('fs-extra');
+          const path = './match.json';
+
+          if (!fs.existsSync(path)) {
+            console.error('match.json not found!');
+            process.exit(1);
+          }
+
+          const data = fs.readJsonSync(path);
+
+          const grouped = {};
+          data.forEach(item => {
+            if (!grouped[item.id]) grouped[item.id] = [];
+            grouped[item.id].push(item);
+          });
+
+          Object.keys(grouped).forEach(key => {
+            const items = grouped[key].map((item, index) => ({
+              id: index + 1,
+              title: item.title,
+              link: item.link
+            }));
+            fs.writeJsonSync(`24spn-${key}.json`, items, { spaces: 2 });
+            console.log(`Created 24spn-${key}.json with ${items.length} items.`);
+          });
+          EOF
+
+      - name: Commit & Push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add 24spn-*.json
+          git commit -m "Auto-update split JSONs [skip ci]" || echo "No changes to commit"
+          git push
