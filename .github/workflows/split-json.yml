@@ -10,9 +10,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout repo
+      # Step 1: Checkout repository with push access
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
 
       # Step 2: Setup Node.js
       - name: Setup Node.js
@@ -55,7 +58,7 @@ jobs:
           });
           EOF
 
-      # Step 5: Commit & Push changes using GITHUB_TOKEN
+      # Step 5: Commit & push only if changes
       - name: Commit & Push
         run: |
           git config user.name "github-actions"
@@ -63,7 +66,7 @@ jobs:
           git add 24spn-*.json
           if ! git diff --cached --quiet; then
             git commit -m "Auto-update split JSONs [skip ci]"
-            git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:main
+            git push
           else
             echo "No changes to commit."
           fi
