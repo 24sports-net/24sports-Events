@@ -10,17 +10,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout repo
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Step 2: Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install fs-extra
 
+      # Step 4: Split match.json into separate files
       - name: Split JSON files
         run: |
           node <<'EOF'
@@ -51,10 +55,15 @@ jobs:
           });
           EOF
 
+      # Step 5: Commit & push only if changes
       - name: Commit & Push
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add 24spn-*.json
-          git commit -m "Auto-update split JSONs [skip ci]" || echo "No changes to commit"
-          git push
+          if ! git diff --cached --quiet; then
+            git commit -m "Auto-update split JSONs [skip ci]"
+            git push
+          else
+            echo "No changes to commit."
+          fi
