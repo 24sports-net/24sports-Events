@@ -1,97 +1,107 @@
 [
   {
-    "id": "01",
+    "id": "Football",
     "title": "Segunda Division: Huesca vs Las Palmas - Arena Sports (Outside India)",
     "link": "https://topembed.pw/channel/ArenaSport6[Serbia]"
   },
   {
-    "id": "02",
+    "id": "Football",
     "title": "Segunda Division: Huesca vs Las Palmas - Nova Sports (Outside India)",
     "link": "https://topembed.pw/channel/NovaSports6[Greece]"
   },
   {
-    "id": "03",
+    "id": "Football",
     "title": "Bundesliga: Werder Bremen vs Union Berlin (Outside India)",
     "link": "https://topembed.pw/channel/ex8347518"
   },
   {
-    "id": "04",
+    "id": "Football",
     "title": "Bundesliga: Werder Bremen vs Union Berlin - ESPN (Outside India)",
     "link": "https://topembed.pw/channel/ESPN3[Argentina]"
   },
   {
-    "id": "05",
+    "id": "Football",
     "title": "Ligue 1: Paris vs Nantes - BEIN SPORTS (Outside India)",
     "link": "https://topembed.pw/channel/beINSPORTSUSA[USA]"
   },
   {
-    "id": "06",
+    "id": "Football",
     "title": "Ligue 1: Paris vs Nantes - BEIN SPORTS (Outside India)",
     "link": "https://topembed.pw/channel/ex8352611"
   },
   {
-    "id": "07",
+    "id": "Football",
     "title": "Premier League: Leeds United vs West Ham United - USA Network (Outside India)",
     "link": "https://topembed.pw/channel/USANetwork[USA]"
   },
   {
-    "id": "08",
+    "id": "Football",
     "title": "Premier League: Leeds United vs West Ham United - SKY NZ (Outside India)",
     "link": "https://topembed.pw/channel/SkySport8[NewZealand]"
   },
   {
-    "id": "09",
+    "id": "Football",
     "title": "Premier League: Leeds United vs West Ham United - SKY PL (Outside India)",
     "link": "https://topembed.pw/channel/SkySportsPremierLeague[UK]"
   },
   {
-    "id": "10",
+    "id": "Football",
     "title": "LaLiga: Real Sociedad vs Sevilla - VIAPLAY (Outside India)",
     "link": "https://topembed.pw/channel/ViaplaySports2[UK]"
   },
   {
-    "id": "11",
+    "id": "Football",
     "title": "LaLiga: Real Sociedad vs Sevilla - ESPN (Outside India)",
     "link": "https://topembed.pw/channel/ESPNDeportes[USA]"
   },
   {
-    "id": "12",
+    "id": "Football",
     "title": "LaLiga: Real Sociedad vs Sevilla (Outside India)",
     "link": "https://topembed.pw/channel/ex8352645"
   },
   {
-    "id": "13",
+    "id": "Football",
     "title": "CONMEBOL Women Nations League: Venezuela vs Chile - Fox Soccer (Outside India)",
     "link": "https://topembed.pw/channel/FoxSoccerPlus[US]"
   },
   {
-    "id": "14",
+    "id": "Football",
     "title": "CONMEBOL Women Nations League: Argentina vs Paraguay - Fox Soccer (Outside India)",
     "link": "https://topembed.pw/channel/FOXSports2[USA]"
   },
   {
-    "id": "15",
+    "id": "Football",
     "title": "Major League Soccer: Inter Miami vs Nashville SC - Fox Sports (Outside India)",
     "link": "https://topembed.pw/channel/FOXSports1[USA]"
   },
   {
-    "id": "16",
+    "id": "Football",
     "title": "Major League Soccer: Inter Miami vs Nashville SC - TSN (Outside India)",
     "link": "https://topembed.pw/channel/TSN2[Canada]"
   },
   {
-    "id": "17",
+    "id": "Football",
     "title": "Australia A-League: Auckland vs Western Sydney Wanderers - TNT SPORTS (India Only)",
     "link": "https://24sports.blogspot.com/?24spn=FOX-CRIC-501"
   },
   {
-    "id": "18",
+    "id": "Football",
     "title": "Australia A-League: Auckland vs Western Sydney Wanderers - TNT (Outside India)",
     "link": "https://topembed.pw/channel/TNTSports1[UK]"
   },
   {
-    "id": "19",
+    "id": "Football",
     "title": "Australia A-League: Auckland vs Western Sydney Wanderers - (Outside India)",
     "link": "https://topembed.pw/channel/ex8605635"
+  },
+  {
+    "id": "Cricket",
+    "title": "AUSTRALIA vs INDIA",
+    "link": "https://topembed.pw/channel/ex8605635"
+  },
+  {
+    "id": "Kabaddi",
+    "title": "Pro Kabaddi League",
+  "link": "https://topembed.pw/channel/StarSports2[India]"
   }
 ]
