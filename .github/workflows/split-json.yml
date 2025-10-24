@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout repo
+      # Step 1: Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -45,27 +45,41 @@ jobs:
           });
 
           Object.keys(grouped).forEach(key => {
-            const items = grouped[key].map((item, index) => ({
-              id: index + 1,
-              title: item.title,
-              link: item.link
-            }));
+            const items = grouped[key]
+              .map((item, index) => ({
+                id: index + 1,
+                title: item.title,
+                link: item.link
+              }))
+              .sort((a, b) => a.title.localeCompare(b.title)); // optional: sort by title
             fs.writeJsonSync(`24spn-${key}.json`, items, { spaces: 2 });
             console.log(`Created 24spn-${key}.json with ${items.length} items.`);
           });
           EOF
 
-      # Step 5: Commit & push using PAT
-      - name: Commit & Push
+      # Step 5: Commit & push to 'update-json' branch
+      - name: Commit & Push to update-json
         env:
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
+          git checkout -b update-json || git checkout update-json
           git add 24spn-*.json
           if ! git diff --cached --quiet; then
             git commit -m "Auto-update split JSONs [skip ci]"
-            git push https://${PAT_TOKEN}@github.com/${{ github.repository }} HEAD:main
+            git push --force https://${PAT_TOKEN}@github.com/${{ github.repository }} update-json
           else
             echo "No changes to commit."
           fi
+
+      # Step 6: Create Pull Request automatically
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          commit-message: Auto-update split JSONs
+          branch: update-json
+          title: "Update split JSON files"
+          body: "This PR updates JSON files from match.json"
+          base: main
