@@ -3,7 +3,10 @@ name: Split Matches JSON
 on:
   push:
     paths:
-      - "match.json"   # Trigger only when match.json changes
+      - "match.json"       # run when match.json changes
+  workflow_dispatch:        # manual trigger
+  schedule:
+    - cron: "0 * * * *"    # run every 1 hour
 
 jobs:
   split:
@@ -22,7 +25,6 @@ jobs:
         run: |
           node <<'EOF'
           const fs = require('fs');
-          const path = require('path');
 
           const file = 'match.json';
           const raw = fs.readFileSync(file, 'utf8');
@@ -41,7 +43,7 @@ jobs:
             });
           });
 
-          // Delete old sport JSON files that no longer exist
+          // Delete old sport JSON files no longer present
           const existing = fs.readdirSync('.').filter(f => f.startsWith('24spn-') && f.endsWith('.json'));
           for (const file of existing) {
             const sportName = file.replace(/^24spn-|\.json$/g, '');
