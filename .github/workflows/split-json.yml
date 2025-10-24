@@ -2,29 +2,28 @@ name: Split Matches JSON
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Run every hour
-  workflow_dispatch:  # Manual trigger
+    - cron: '0 * * * *'
+  workflow_dispatch:
 
 jobs:
   split-json:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          persist-credentials: true
 
-      # Step 2: Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install fs-extra
 
-      # Step 4: Split match.json into separate files
       - name: Split JSON files
         run: |
           node <<'EOF'
@@ -45,22 +44,17 @@ jobs:
           });
 
           Object.keys(grouped).forEach(key => {
-            const items = grouped[key]
-              .map((item, index) => ({
-                id: index + 1,
-                title: item.title,
-                link: item.link
-              }))
-              .sort((a, b) => a.title.localeCompare(b.title)); // optional: sort by title
-            fs.writeJsonSync(`24spn-${key}.json`, items, { spaces: 2 });
+            const items = grouped[key].map((item,index)=>({
+              id:index+1,
+              title:item.title,
+              link:item.link
+            })).sort((a,b)=>a.title.localeCompare(b.title));
+            fs.writeJsonSync(`24spn-${key}.json`, items, {spaces:2});
             console.log(`Created 24spn-${key}.json with ${items.length} items.`);
           });
           EOF
 
-      # Step 5: Commit & push to 'update-json' branch
-      - name: Commit & Push to update-json
-        env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+      - name: Commit & Push
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
@@ -68,18 +62,7 @@ jobs:
           git add 24spn-*.json
           if ! git diff --cached --quiet; then
             git commit -m "Auto-update split JSONs [skip ci]"
-            git push --force https://${PAT_TOKEN}@github.com/${{ github.repository }} update-json
+            git push --force
           else
             echo "No changes to commit."
           fi
-
-      # Step 6: Create Pull Request automatically
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.PAT_TOKEN }}
-          commit-message: Auto-update split JSONs
-          branch: update-json
-          title: "Update split JSON files"
-          body: "This PR updates JSON files from match.json"
-          base: main
